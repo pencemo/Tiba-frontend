@@ -1,0 +1,95 @@
+// import Cars from "@/Pages/Cars"
+import { useFilterContext } from "@/Context/filterContext";
+import CarsGrid from "@/components/Cars/CarsGrid";
+import { AppSidebar } from "@/components/Cars/pages/app-sidebar";
+import NoData from "@/components/Error/NoData";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Loader from "@/components/ui/loader";
+import { Separator } from "@/components/ui/separator";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { useAllCarsUser } from "@/hooks/QueryHooks/useCars";
+import { useEffect, useState } from "react";
+
+export default function CarListPage() {
+  const { search, carMakes, category, sort, fuleType } = useFilterContext();
+
+  const { data, isLoading, error, isError } = useAllCarsUser();
+  const [carData, setCardata] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    if (data && data.data) {
+      setCardata(data.data);
+      setCurrentPage(Number(data.currentPage));
+    }
+  }, [data]);
+
+  const filteredData = carData.filter((car) => {
+    return (
+      car.make.toLowerCase().includes(search.toLowerCase()) &&
+      (category.length === 0 || category.includes(car.category)) &&
+      (carMakes.length === 0 || carMakes.includes(car.make)) &&
+      (fuleType.length === 0 || fuleType === 'all' || fuleType  === car.fuel_type)
+    );
+  });
+  const sortedData = filteredData.sort((a, b) => {
+    if (sort === "Price") {
+      return a.daily_rate.$numberDecimal - b.daily_rate.$numberDecimal; // Sort by price (ascending)
+    } else if (sort === "Mileage") {
+      return a.mileage - b.mileage; // Sort by mileage (ascending)
+    } else if (sort === "Year") {
+      return b.year - a.year; // Sort by year (ascending)
+    } else {
+      return 0; // No sorting
+    }
+  });
+
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="sticky z-50 top-0 flex h-16 shrink-0 items-center gap-2 border-b bg-background px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+            <BreadcrumbItem>
+            <BreadcrumbLink to="/">
+            Home
+            </BreadcrumbLink>
+            <BreadcrumbSeparator />
+            </BreadcrumbItem>
+              <BreadcrumbItem>
+                <BreadcrumbPage>Cars</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
+
+        {isLoading ? 
+          <Loader />
+         : data.status === 200 ? <div className="w-full h-screen"><NoData/> </div>: (
+          <CarsGrid
+            error={error}
+            carData={sortedData}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={data.totalPages}
+            totalCars={data.totalCars}
+          />
+        )}
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}
