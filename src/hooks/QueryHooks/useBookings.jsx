@@ -20,3 +20,15 @@ export const useBookingSatusChange = () => {
     },
   });
 };
+
+export const useCrateBooking = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => {
+      return bookingService.createBooking(data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("bookings");
+    },
+  });
+};

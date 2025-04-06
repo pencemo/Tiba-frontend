@@ -7,9 +7,10 @@ import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { HiArrowUpTray, HiMiniCheck } from "react-icons/hi2";
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 function AdminSettings() {
   const { profile } = usePorfile();
-  const { mutate, isPending, data } = useEditProfiel();
+  const { mutate, isPending } = useEditProfiel();
   const [editProfil, setEdtiProfile] = useState({});
   const [file, setFile] = useState(null);
   const [error, setError]=useState('')
@@ -68,7 +69,7 @@ function AdminSettings() {
 
           <div>
             {/* Grid */}
-            <div className="grid sm:grid-cols-12 gap-2 sm:gap-6">
+            <div className="sm:grid flex flex-col sm:grid-cols-12 gap-3 sm:gap-6 ">
               <div className="sm:col-span-3">
                 <Label>Profile photo</Label>
               </div>

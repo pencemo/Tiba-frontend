@@ -8,13 +8,13 @@ const stipePubKey = import.meta.env.VITE_STRIPE_PUB_KEY;
 const stripePromise = loadStripe(stipePubKey);
 const url = import.meta.env.VITE_API_BASE_URL
 
-export default function StripeElement({car, formData, setFormData}) {
+export default function StripeElement({car, formData, setFormData, showSuccess}) {
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
     const createPaymentIntent = async () => {
         
-        const response = await axiosInstance.post("/api/payment/create-payment", { currency: "inr", amount: 1000 })
+        const response = await axiosInstance.post("/api/payment/create-payment", { currency: "aed", amount: formData.totalCost, metadata:{name: formData.name, email: formData.email, contact: formData.contact, userId: formData.userId, }})
         
         if(response.data.success){
           setClientSecret(response.data.clientSecret)
@@ -56,7 +56,7 @@ export default function StripeElement({car, formData, setFormData}) {
 
         {clientSecret ? (
           <Elements options={{clientSecret, appearance: {theme:"flat" }, loader}} stripe={stripePromise}>
-            <CheckoutForm formData={formData} setFormData={setFormData} />
+            <CheckoutForm showSuccess={showSuccess} formData={formData} setFormData={setFormData} />
           </Elements>
         ) : <Loader/>}
         </div>

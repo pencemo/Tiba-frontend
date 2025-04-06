@@ -8,38 +8,46 @@ import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { useCrateBooking } from "@/hooks/QueryHooks/useBookings";
 
-export default function CheckoutForm({formData, setFormData}) {
+export default function CheckoutForm({formData, setFormData, showSuccess}) {
   const stripe = useStripe();
   const elements = useElements();
+  const {mutate}= useCrateBooking()
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!stripe || !elements || isLoading) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
+      return;
+    }
+
+    if(!formData.name || !formData.email || !formData.contact){
+      setError(true)
       return;
     }
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent  } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/complete",
-      },
+      // confirmParams: {
+      //   return_url: window.location.origin + "/user", // Change if needed
+      // },
+      redirect: "if_required",
     });
 
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-        console.log(error);
-      setMessage("An unexpected error occurred.");
+    if (error) {
+      setMessage(error.message || "An error occurred.");
+    } else if (paymentIntent && paymentIntent.status === "succeeded") {
+      // onPaymentSuccess?.();
+      showSuccess()
+      mutate({ ...formData, paymentIntentId: paymentIntent.id });
+      setError(false)
     }
 
     setIsLoading(false);
@@ -53,6 +61,7 @@ export default function CheckoutForm({formData, setFormData}) {
             <div className="grid md:grid-cols-2 gap-4">
         <FormField
           label="Full Name"
+          error={error}
           name="name"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -61,6 +70,7 @@ export default function CheckoutForm({formData, setFormData}) {
         <FormField
           label="Email"
           name="email"
+          error={error}
           type="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -69,6 +79,7 @@ export default function CheckoutForm({formData, setFormData}) {
         <FormField
           label="Contact No"
           name="contact"
+          error={error}
           value={formData.contact}
           onChange={(e) =>
             setFormData({ ...formData, contact: e.target.value })

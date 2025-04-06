@@ -7,7 +7,7 @@ export const bookingService = {
       const response = await axiosInstance.get(API_ENDPOINTS.BOOKING.ALL_BOOKING, {
         params: { page, limit },
       });
-      return response.data;
+      return response.data; 
     } catch (error) {
       console.error("Error fetching users:", error);
       throw error; // Re-throw the error to be handled by React Query
@@ -29,6 +29,18 @@ export const bookingService = {
     } catch (error) {
       console.error("Error fetching users:", error);
       throw error; // Re-throw the error to be handled by React Query
+    }
+  },
+  createBooking: async (data) => {
+    try {
+      const response = await axiosInstance.post(
+        API_ENDPOINTS.BOOKING.CREATE_BOOKING,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   },
 };

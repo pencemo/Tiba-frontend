@@ -34,9 +34,9 @@ function AllNotifications() {
       </div>
       <div className='flex flex-col space-y-1'>
 
-        {data.data.notification.map((item)=>{
+        {data.data.notification.map((item, i)=>{
           return (
-            <div key={item.id}>
+            <div key={i}>
               <NewUserNot data={item}/>
               <Separator className="" />
             </div>

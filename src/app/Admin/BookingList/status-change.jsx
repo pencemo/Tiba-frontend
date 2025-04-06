@@ -10,7 +10,6 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
   import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
   
   export function StatusChange({submit, loading, disabled}) {
     return (
@@ -26,8 +25,7 @@ import { Loader2 } from "lucide-react"
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              This action cannot be undone. This will permanently change the status of the booking.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

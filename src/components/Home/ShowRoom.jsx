@@ -75,27 +75,23 @@ function ShowRoom() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {data?.data.map((item, i) => {
-            return (
-              <div class="group flex flex-col h-full bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
-                {/* <div class="h-52 w-full overflow-hidden flex flex-col justify-center items-center bg-rose-500 rounded-t-xl">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d250966.36294650938!2d76.6017536!3d10.629939199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1742283422722!5m2!1sen!2sin" width="600" height="450"  allowfullscreen="" loading="lazy"></iframe>
-      </div> */}
-                <div class="p-4 md:p-6">
-                  <span class="block mb-1 text-xs font-semibold uppercase text-rose-600 dark:text-rose-500">
+            return <div key={i} className="group flex flex-col h-full bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
+                <div className="p-4 md:p-6">
+                  <span className="block mb-1 text-xs font-semibold uppercase text-rose-600 dark:text-rose-500">
                     Showroom
                   </span>
-                  <h3 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-neutral-300 dark:hover:text-white">
+                  <h3 className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-neutral-300 dark:hover:text-white">
                     {item.name}
                   </h3>
                   <p className="text-sm capitalize text-gray-500 dark:text-neutral-500">
                     {item.city || ""} {item.state || ""} {item.country || ""}
                   </p>
-                  <p class="mt-3 text-gray-600 dark:text-neutral-500">
+                  <p className="mt-3 text-gray-600 dark:text-neutral-500">
                     {`${item.address || ""}`}
                   </p>
                   <Separator className="my-5" />
                   <div className="mt-3 space-y-2">
-                    <p className="mt-1 text-sm text-gray-600 dark:text-neutral-500">
+                    <div className="mt-1 text-sm text-gray-600 dark:text-neutral-500">
                       {item.telphone && (
                         <div className="flex items-center gap-x-2">
                           <span className="size-6 bg-foreground text-background rounded-full p-1 grid place-content-center">
@@ -105,8 +101,8 @@ function ShowRoom() {
                           {item.telphone}
                         </div>
                       )}
-                    </p>
-                    <p className="mt-1 text-sm text-gray-600 dark:text-neutral-500">
+                    </div>
+                    <div className="mt-1 text-sm text-gray-600 dark:text-neutral-500">
                       {item.contactNo && (
                         <div className="flex items-center gap-x-2">
                           <span className="size-6 bg-foreground text-background rounded-full p-1 grid place-content-center">
@@ -116,8 +112,8 @@ function ShowRoom() {
                           {item.contactNo}
                         </div>
                       )}
-                    </p>
-                    <p className="mt-1 text-sm text-gray-600 dark:text-neutral-500">
+                    </div>
+                    <div className="mt-1 text-sm text-gray-600 dark:text-neutral-500">
                       {item.email && (
                         <div className="flex items-center gap-x-2">
                           <span className="size-6 bg-foreground text-background rounded-full p-1 grid place-content-center">
@@ -127,22 +123,22 @@ function ShowRoom() {
                           {item.email}
                         </div>
                       )}
-                    </p>
+                    </div>
                   </div>
                 </div>
-                <div class="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+                <div className="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
                   <a
-                    class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href={item.locationLink}
                   >
                     View location
                   </a>
-                  <button class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                  <button className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
                     Contact Now
                   </button>
                 </div>
               </div>
-            );
+            
           })}
         </div>
       </div>

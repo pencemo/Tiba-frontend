@@ -31,7 +31,7 @@ export const API_ENDPOINTS = {
     },
     BOOKING: {
       ALL_BOOKING: '/api/booking/all-bookings',
-      ADD_BOOKING: '/api/booking/create',
+      CREATE_BOOKING: '/api/booking/create',
       CHANGE_STATUS: '/api/booking/change-status',
       DELETE_BOOKING: '/api/booking/delete',
       DATE_CHECK: '/api/booking/check-date',

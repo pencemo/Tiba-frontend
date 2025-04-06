@@ -29,7 +29,7 @@ export function LoginForm({
       const data = await authService.login({email, password})
       if(!data.success){
         setError(data.message)
-        toast({
+        toast({ 
           title: "Error to loagin",
           description: data.message+' Please try again',
         })

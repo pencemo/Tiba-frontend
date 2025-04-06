@@ -28,6 +28,7 @@ export default function ProductPage() {
   
   const { data: carData, isLoading } = useOneCar(id);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [loadElement, setLoadElement] = useState(false);
   const [showFail, setShowFail] = useState(false);
 
   if (isLoading) return <div className="w-full h-screen"><Loader /></div>;
@@ -40,8 +41,8 @@ export default function ProductPage() {
     <div className="min-h-screen bg-background">
       <UserNav />
 
-      {showSuccess?
-      <StripeElement formData={formData} setFormData={setFormData} car={carData.data}/> 
+      {loadElement?
+      <StripeElement formData={formData} setFormData={setFormData} showSuccess={()=>setShowSuccess(true)} car={carData.data}/> 
       :<main className="container mx-auto px-4 py-8">
         <div className="grid md:grid-cols-2 gap-12">
           <CarImageGallery images={carData?.data?.images} />
@@ -55,7 +56,7 @@ export default function ProductPage() {
               setFormData={setFormData}
               profile={profile}
               car={carData.data}
-              onSuccess={() => setShowSuccess(true)}
+              onSuccess={() => setLoadElement(true)}
               onFail={() => setShowFail(true)}
             />
           </div>
@@ -63,10 +64,10 @@ export default function ProductPage() {
       </main>}
             {/* <StripeElement/> */}
 
-      {/* <SuccessPopup
+      <SuccessPopup
         isVisible={showSuccess}
         onClose={() => setShowSuccess(false)}
-      /> */}
+      />
       <FailPopup
         isVisible={showFail}
         onClose={() => setShowFail(false)}
